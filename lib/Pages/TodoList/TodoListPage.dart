@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_todo_app/Models/TodoItem.dart';
+import 'package:flutter_todo_app/Network/NetworkService.dart';
 import 'package:flutter_todo_app/Pages/TodoAdd/TodoAddPage.dart';
 import 'package:flutter_todo_app/Pages/TodoDetails/TodoDetailsPage.dart';
 import 'package:flutter_todo_app/Pages/TodoList/TodoListCell.dart';
@@ -10,29 +11,14 @@ class TodoListPage extends StatefulWidget {
 }
 
 class _TodoListPageState extends State<TodoListPage> {
+  Future<List<TodoItem>> items;
 
-  var items = [
-    TodoItem(
-        "I really need to check where i can find this beautiful owl.",
-        DateTime.now(),
-        "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
-        false),
-    TodoItem(
-        "I really need to check where i can find this beautiful owl.",
-        DateTime.now(),
-        "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
-        false),
-    TodoItem(
-        "I really need to check where i can find this beautiful owl.",
-        DateTime.now(),
-        null,
-        false),
-    TodoItem(
-        "I really need to check where i can find this beautiful owl.",
-        DateTime.now(),
-        null,
-        true),
-  ];
+  @override
+  void initState() {
+    super.initState();
+
+    items = NetworkService().getTodoListItems();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,17 +41,28 @@ class _TodoListPageState extends State<TodoListPage> {
           ),
         ]
       ),
-      body: ListView.builder(
-          itemCount: items.length * 2,  // Use double amount because we will insert a Divider in the ItemBuilder
-          itemBuilder: _listViewItemBuilder,
+      body: FutureBuilder(
+        future: items,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Text("${snapshot.error}");
+          } else if (!snapshot.hasData) {
+            return CircularProgressIndicator();
+          }
+
+          return ListView.builder(
+            itemCount: snapshot.data.length * 2,  // Use double amount because we will insert a Divider in the ItemBuilder
+            itemBuilder: (context, index) => _listViewItemBuilder(context, snapshot, index),
+          );
+        }
       ),
     );
   }
 
-  Widget _listViewItemBuilder(BuildContext context, int index) {
+  Widget _listViewItemBuilder(BuildContext context, AsyncSnapshot<List<TodoItem>> snapshot, int index) {
     // Check if we have an even number, because we want to insert a Divider after each cell.
     if (index.isOdd) return Divider();
-    var _item = items[index ~/ 2];
+    var _item = snapshot.data[index ~/ 2];
 
     return GestureDetector(
       onTap: () {

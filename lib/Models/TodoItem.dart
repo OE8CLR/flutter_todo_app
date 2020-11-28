@@ -4,6 +4,6 @@ class TodoItem {
   final String imageUrl;
   bool completed;
 
-  TodoItem(this.title, this.untilDate, this.imageUrl, this.completed);
+  TodoItem({this.title, this.untilDate, this.imageUrl, this.completed});
 
 }
