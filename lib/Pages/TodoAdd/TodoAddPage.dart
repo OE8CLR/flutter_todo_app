@@ -1,6 +1,8 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_todo_app/Models/Coordinates.dart';
 import 'package:flutter_todo_app/Network/NetworkService.dart';
+import 'package:flutter_todo_app/Pages/TodoAdd/ImagePickerCell.dart';
 import 'package:flutter_todo_app/Pages/TodoAdd/TextFieldCell.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -15,6 +17,7 @@ class _TodoAddPageState extends State<TodoAddPage> {
   String _todoText;
   DateTime _untilDate;
   Coordinates _currentLocation;
+  File _image;
 
   @override
   void initState() {
@@ -42,18 +45,19 @@ class _TodoAddPageState extends State<TodoAddPage> {
           TextFieldCell(
             padding: EdgeInsets.only(right: 16.0, left: 16.0),
             hintText: "I want to ...", // TODO: Localisation missing
-            onTextChanged: (text) {
-              _todoText = text;
-            },
+            onTextChanged: (text) => _todoText = text,
           ),
           Divider(),
           Divider(),
           TimePickerCell(
             padding: EdgeInsets.only(right: 16.0, left: 16.0),
-            dateTime: null,
-            onDateTimeChanged: (dateTime) {
-              _untilDate = dateTime;
-            },
+            onDateTimeChanged: (dateTime) => _untilDate = dateTime,
+          ),
+          Divider(),
+          Divider(),
+          ImagePickerCell(
+            padding: EdgeInsets.only(right: 16.0, left: 16.0),
+            imageSelected: (image) => _image = image,
           ),
           Divider(),
         ],
@@ -81,7 +85,7 @@ class _TodoAddPageState extends State<TodoAddPage> {
     NetworkService().addTodoListItem(
         title: _todoText,
         untilDate: _untilDate,
-        imageUrl: null, // TODO: Set image url
+        image: _image,
         longitude: _currentLocation.longitude,
         latitude: _currentLocation.latitude
     ).then((todoItem) {

@@ -1,9 +1,10 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 
 class TodoListCell extends StatelessWidget {
   final String title;
   final DateTime untilDate;
-  final ImageProvider<Object> image;
+  final File image;
   final bool completed;
 
   const TodoListCell({Key key, @required this.title, this.untilDate, this.image, @required this.completed}) : super(key: key);
@@ -18,9 +19,9 @@ class TodoListCell extends StatelessWidget {
           padding: EdgeInsets.only(right: 8.0),
           child: ClipRRect(
               borderRadius: BorderRadius.circular(8.0),
-              child: Image(
+              child: Image.file(
+                image,
                 width: 50.0,
-                image: image,
               )
           )
       ));

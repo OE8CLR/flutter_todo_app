@@ -20,7 +20,7 @@ class _TodoDetailsPageState extends State<TodoDetailsPage> {
       body: Column(
         children: [
           Text(widget.todoItem.title),
-          Image(image: NetworkImage(widget.todoItem.imageUrl))
+          Image.file(widget.todoItem.image)
         ],
       )
     );

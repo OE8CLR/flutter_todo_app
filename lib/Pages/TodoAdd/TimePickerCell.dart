@@ -4,10 +4,9 @@ import 'package:intl/intl.dart';
 
 class TimePickerCell extends StatefulWidget {
   final EdgeInsets padding;
-  final DateTime dateTime;
   final void Function(DateTime dateTime) onDateTimeChanged;
 
-  TimePickerCell({Key key, @required this.dateTime, @required this.onDateTimeChanged, this.padding}) : super(key: key);
+  TimePickerCell({Key key, @required this.onDateTimeChanged, this.padding}) : super(key: key);
 
   @override
   _TimePickerCellState createState() => _TimePickerCellState();
@@ -16,12 +15,6 @@ class TimePickerCell extends StatefulWidget {
 class _TimePickerCellState extends State<TimePickerCell> {
   bool _datePickerIsVisible = false;
   DateTime _dateTime;
-
-  @override
-  void initState() {
-    _dateTime = widget.dateTime;
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {

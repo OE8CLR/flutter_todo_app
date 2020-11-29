@@ -77,7 +77,7 @@ class _TodoListPageState extends State<TodoListPage> {
       },
       child: TodoListCell(
         title: _item.title,
-        image: _item.imageUrl != null ? NetworkImage(_item.imageUrl) : null,
+        image: _item.image,
         untilDate: _item.untilDate,
         completed: _item.completed,
       ),

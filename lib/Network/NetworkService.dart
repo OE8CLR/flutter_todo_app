@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter_todo_app/Models/TodoItem.dart';
 import 'package:uuid/uuid.dart';
 
@@ -16,7 +18,7 @@ class NetworkService {
           id: Uuid().toString(),
           title: "I really need to check where i can find this beautiful owl.",
           untilDate: DateTime.now().add(Duration(days: 1)),
-          imageUrl: "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
+          image: null,
           completed: false
       ),
     ]);
@@ -26,11 +28,11 @@ class NetworkService {
     return todoItems;
   }
 
-  Future<TodoItem> addTodoListItem({String title, String imageUrl, DateTime untilDate, double longitude, double latitude}) async {
+  Future<TodoItem> addTodoListItem({String title, File image, DateTime untilDate, double longitude, double latitude}) async {
     var retVal = TodoItem(
       id: Uuid().toString(),
       title: title,
-      imageUrl: imageUrl,
+      image: image,
       untilDate: untilDate,
       longitude: longitude,
       latitude: latitude
