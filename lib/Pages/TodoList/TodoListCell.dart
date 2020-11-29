@@ -20,10 +20,12 @@ class TodoListCell extends StatelessWidget {
           child: ClipRRect(
               borderRadius: BorderRadius.circular(8.0),
               child: Image.file(
-                image,
-                width: 50.0,
-              )
-          )
+                  image,
+                  width: 50.0,
+                  height: 50.0,
+                  fit: BoxFit.fill
+              ),
+          ),
       ));
     }
 
