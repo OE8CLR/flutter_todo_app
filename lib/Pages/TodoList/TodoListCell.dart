@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class TodoListCell extends StatelessWidget {
   final String title;
@@ -11,11 +12,30 @@ class TodoListCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var _subviews = List<Widget>();
+    // Layout firstRowContent
+    List<Widget> firstRowContent = [
+      Flexible(
+          fit: FlexFit.tight,
+          child: Container(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    child: Text(title),
+                  ),
+                ],
+              )
+          )
+      ),
+      Container(
+          padding: EdgeInsets.only(left: 8.0),
+          child: Icon(completed ? Icons.check : Icons.chevron_right)
+      )
+    ];
 
-    // Check if an image is available and show/hide it
+    // Check if an image is available and insert it in front of the text of the firstRow
     if (image != null) {
-      _subviews.add(Container(
+      firstRowContent.insert(0, Container(
           padding: EdgeInsets.only(right: 8.0),
           child: ClipRRect(
               borderRadius: BorderRadius.circular(8.0),
@@ -29,31 +49,60 @@ class TodoListCell extends StatelessWidget {
       ));
     }
 
-    _subviews.add(Flexible(
-        fit: FlexFit.tight,
-        child: Container(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  child: Text(title),
-                ),
-              ],
-            )
-        )
-    ));
+    // Layout secondRow Content
+    Widget secondRowContent = Container();
 
-    // Add chevron if needed
-    // FIXME: Fix issue that chevron is not aligned to the right
-    _subviews.add(Container(
-        padding: EdgeInsets.only(left: 8.0),
-        child: Icon(completed ? Icons.check : Icons.chevron_right)
-    ));
+    if (untilDate != null) {
+      // FIXME: Date calculation is wong
+      var dateDifference =  DateTime.now().difference(untilDate).inDays;
+      var dateTimeColor = dateDifference < 0 ? Colors.grey : Colors.red;
+
+      secondRowContent = Container(
+        padding: EdgeInsets.only(top: 6.0),
+        child: Row(
+          children: [
+            Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: dateTimeColor,
+                    width: 0.5,
+                  ),
+                  borderRadius: BorderRadius.circular(4.0),
+                ),
+                child: Container(
+                    padding: EdgeInsets.all(2.0),
+                    child: Row(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.only(right: 2.0),
+                          child: Icon(
+                            Icons.calendar_today,
+                            size: 12.0,
+                            color: dateTimeColor,
+                          ),
+                        ),
+                        Text(
+                            DateFormat("dd.MM. kk:mm").format(untilDate),
+                            style: TextStyle(fontSize: 10.0, color: dateTimeColor)
+                        )
+                      ],
+                    )
+                )
+            ),
+          ],
+        ),
+      );
+    }
 
     return Container(
         padding: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
-        child: Row(
-          children: _subviews,
+        child: Column(
+            children: [
+              Row(
+                children: firstRowContent,
+              ),
+              secondRowContent
+            ]
         )
     );
   }
