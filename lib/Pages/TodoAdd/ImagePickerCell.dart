@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -31,7 +32,7 @@ class _ImagePickerCellState extends State<ImagePickerCell> {
     return Container(
       padding: widget.padding ?? EdgeInsets.zero,
       child: GestureDetector(
-        onTap: _getImage,
+        onTap: () => _showImagePickerActionSheet(context),
         child: Row (
           children: [
             _child
@@ -41,8 +42,41 @@ class _ImagePickerCellState extends State<ImagePickerCell> {
     );
   }
 
-  void _getImage() {
-    imagePicker.getImage(source: ImageSource.gallery).then((file) {
+  void _showImagePickerActionSheet(BuildContext context) {
+    // FIXME: Background color of actionSheets
+    // https://github.com/flutter/flutter/issues/24687
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => CupertinoActionSheet(
+        actions: [
+          CupertinoActionSheetAction(
+              onPressed: () {
+                Navigator.pop(context);
+                _openImagePicker(ImageSource.camera);
+              },
+              child: Text("Camera") // TODO: Localisation missing
+          ),
+          CupertinoActionSheetAction(
+              onPressed: () {
+                Navigator.pop(context);
+                _openImagePicker(ImageSource.gallery);
+              },
+              child: Text("Gallery") // TODO: Localisation missing
+          ),
+        ],
+        cancelButton: CupertinoActionSheetAction(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: Text("Cancel"), // TODO: Localisation missing
+          isDefaultAction: true,
+        ),
+      ),
+    );
+  }
+
+  void _openImagePicker(ImageSource source) {
+    imagePicker.getImage(source: source).then((file) {
       if (file?.path != null) {
         setState(() {
           _image = File(file.path);
