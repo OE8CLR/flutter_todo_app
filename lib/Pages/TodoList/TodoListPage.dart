@@ -52,9 +52,12 @@ class _TodoListPageState extends State<TodoListPage> {
             return CircularProgressIndicator();
           }
 
-          return ListView.builder(
-            itemCount: snapshot.data.length * 2,  // Use double amount because we will insert a Divider in the ItemBuilder
-            itemBuilder: (context, index) => _listViewItemBuilder(context, snapshot, index),
+          return Container(
+            padding: EdgeInsets.only(top: 8.0), // Add some padding to the top, otherwise the first cell will look really wired
+            child: ListView.builder(
+              itemCount: snapshot.data.length * 2,  // Use double amount because we will insert a Divider in the ItemBuilder
+              itemBuilder: (context, index) => _listViewItemBuilder(context, snapshot, index),
+            ),
           );
         }
       ),

@@ -30,10 +30,14 @@ class TodoListCell extends StatelessWidget {
     }
 
     _subviews.add(Flexible(
+        fit: FlexFit.tight,
         child: Container(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title)
+                Container(
+                  child: Text(title),
+                ),
               ],
             )
         )
