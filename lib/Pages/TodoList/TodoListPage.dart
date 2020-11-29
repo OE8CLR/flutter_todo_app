@@ -11,13 +11,12 @@ class TodoListPage extends StatefulWidget {
 }
 
 class _TodoListPageState extends State<TodoListPage> {
-  Future<List<TodoItem>> items;
+  Future<List<TodoItem>> _items;
 
   @override
   void initState() {
+    _loadItems();
     super.initState();
-
-    items = NetworkService().getTodoListItems();
   }
 
   @override
@@ -35,14 +34,17 @@ class _TodoListPageState extends State<TodoListPage> {
                       builder: (context) => TodoAddPage(),
                       fullscreenDialog: true
                   )
-              );
+              ).then((value) {
+                // Reload view after view was popped
+                setState(() => _loadItems());
+              });
             },
             padding: EdgeInsets.only(right: 20.0),
           ),
         ]
       ),
       body: FutureBuilder(
-        future: items,
+        future: _items,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Text("${snapshot.error}");
@@ -82,8 +84,8 @@ class _TodoListPageState extends State<TodoListPage> {
     );
   }
 
-  void addTodoButtonPressed() {
-    print("add new todo button pressed");
+  void _loadItems() {
+    _items = NetworkService().getTodoListItems();
   }
 
 }

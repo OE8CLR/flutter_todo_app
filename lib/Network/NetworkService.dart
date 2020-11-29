@@ -1,4 +1,5 @@
 import 'package:flutter_todo_app/Models/TodoItem.dart';
+import 'package:uuid/uuid.dart';
 
 class NetworkService {
 
@@ -12,26 +13,11 @@ class NetworkService {
     // Init todoItems
     todoItems.addAll([
       TodoItem(
+          id: Uuid().toString(),
           title: "I really need to check where i can find this beautiful owl.",
-          untilDate: DateTime.fromMillisecondsSinceEpoch(1574972656),
+          untilDate: DateTime.now().add(Duration(days: 1)),
           imageUrl: "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
           completed: false
-      ),
-      TodoItem(
-          title: "I really need to check where i can find this beautiful owl.",
-          untilDate: DateTime.fromMillisecondsSinceEpoch(1590697456),
-          imageUrl: "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
-          completed: false
-      ),
-      TodoItem(
-          title: "I really need to check where i can find this beautiful owl.",
-          untilDate: DateTime.now(),
-          completed: false
-      ),
-      TodoItem(
-          title: "I really need to check where i can find this beautiful owl.",
-          untilDate: DateTime.fromMillisecondsSinceEpoch(1601324656),
-          completed: true
       ),
     ]);
   }
@@ -40,10 +26,22 @@ class NetworkService {
     return todoItems;
   }
 
-  // Future<TodoItem> addTodoListItem({String title, String imageUrl, DateTime untilDate, double longitude, double latitude}) async {
-  //
-  // }
-  //
+  Future<TodoItem> addTodoListItem({String title, String imageUrl, DateTime untilDate, double longitude, double latitude}) async {
+    var retVal = TodoItem(
+      id: Uuid().toString(),
+      title: title,
+      imageUrl: imageUrl,
+      untilDate: untilDate,
+      longitude: longitude,
+      latitude: latitude
+    );
+
+    // Store item for further runtime useage
+    todoItems.add(retVal);
+
+    return retVal;
+  }
+
   // Future<TodoItem> updateTodoListItem({String id, bool completed}) async {
   //
   // }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_todo_app/Models/Coordinates.dart';
+import 'package:flutter_todo_app/Network/NetworkService.dart';
+import 'package:flutter_todo_app/Pages/TodoAdd/TextFieldCell.dart';
 import 'package:geolocator/geolocator.dart';
 
 import 'TimePickerCell.dart';
@@ -10,6 +12,8 @@ class TodoAddPage extends StatefulWidget {
 }
 
 class _TodoAddPageState extends State<TodoAddPage> {
+  String _todoText;
+  DateTime _untilDate;
   Coordinates _currentLocation;
 
   @override
@@ -35,28 +39,21 @@ class _TodoAddPageState extends State<TodoAddPage> {
       body: ListView(
         children: [
           Divider(),
-          Container(
-              padding: EdgeInsets.only(right: 16.0, left: 16.0),
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: "I want to ...", // TODO: Localisation missing
-                  enabledBorder: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                  border: InputBorder.none,
-                ),
-                maxLines: 6,
-              )
+          TextFieldCell(
+            padding: EdgeInsets.only(right: 16.0, left: 16.0),
+            hintText: "I want to ...", // TODO: Localisation missing
+            onTextChanged: (text) {
+              _todoText = text;
+            },
           ),
           Divider(),
           Divider(),
-          Container(
+          TimePickerCell(
             padding: EdgeInsets.only(right: 16.0, left: 16.0),
-            child: TimePickerCell(
-              dateTime: null,
-              onDateTimeChanged: (dateTime) {
-                print(dateTime);
-              },
-            ),
+            dateTime: null,
+            onDateTimeChanged: (dateTime) {
+              _untilDate = dateTime;
+            },
           ),
           Divider(),
         ],
@@ -81,7 +78,15 @@ class _TodoAddPageState extends State<TodoAddPage> {
   void _createNewTodo(BuildContext context) {
     // TODO: Validate input parameters
 
-    Navigator.pop(context);
+    NetworkService().addTodoListItem(
+        title: _todoText,
+        untilDate: _untilDate,
+        imageUrl: null, // TODO: Set image url
+        longitude: _currentLocation.longitude,
+        latitude: _currentLocation.latitude
+    ).then((todoItem) {
+      Navigator.pop(context);
+    });
   }
 
 }

@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class TimePickerCell extends StatefulWidget {
+  final EdgeInsets padding;
   final DateTime dateTime;
   final void Function(DateTime dateTime) onDateTimeChanged;
 
-  TimePickerCell({Key key, @required this.dateTime, @required this.onDateTimeChanged}) : super(key: key);
+  TimePickerCell({Key key, @required this.dateTime, @required this.onDateTimeChanged, this.padding}) : super(key: key);
 
   @override
   _TimePickerCellState createState() => _TimePickerCellState();
@@ -58,8 +59,11 @@ class _TimePickerCellState extends State<TimePickerCell> {
       ));
     }
 
-    return Column(
-      children: elements,
+    return Container(
+      padding: widget.padding ?? EdgeInsets.zero,
+      child: Column(
+        children: elements,
+      )
     );
   }
 }

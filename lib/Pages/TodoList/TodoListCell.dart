@@ -37,6 +37,7 @@ class TodoListCell extends StatelessWidget {
     ));
 
     // Add chevron if needed
+    // FIXME: Fix issue that chevron is not aligned to the right
     _subviews.add(Container(
         padding: EdgeInsets.only(left: 8.0),
         child: Icon(completed ? Icons.check : Icons.chevron_right)
