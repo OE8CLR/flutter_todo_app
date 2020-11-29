@@ -24,7 +24,7 @@ class _TodoListPageState extends State<TodoListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Todo's"),
+        title: Text("Todo's"), // TODO: Localisation missing
         actions: [
           IconButton(
             icon: Icon(Icons.add),
