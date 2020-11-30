@@ -7,6 +7,7 @@ class TextFieldCell extends StatefulWidget {
   final bool readOnly;
   final void Function(String text) onTextChanged;
 
+  // FIXME: onTextChanged should not be required, but then I need to check for null later on
   const TextFieldCell({Key key, this.text, @required this.hintText, this.padding, this.readOnly = false, @required this.onTextChanged}) : super(key: key);
 
   @override

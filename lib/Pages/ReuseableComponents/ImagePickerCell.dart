@@ -9,6 +9,7 @@ class ImagePickerCell extends StatefulWidget {
   final bool readOnly;
   final void Function(File image) imageSelected;
 
+  // FIXME: imageSelected should not be required, but then I need to check for null later on
   const ImagePickerCell({Key key, this.image, this.padding, this.readOnly = false, @required this.imageSelected}) : super(key: key);
 
   @override

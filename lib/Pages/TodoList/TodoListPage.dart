@@ -52,11 +52,15 @@ class _TodoListPageState extends State<TodoListPage> {
             return CircularProgressIndicator();
           }
 
+          // Sort the received data, so that the oldest is first
+          List<TodoItem> sortedList = snapshot.data;
+          sortedList.sort((a,b) => a.untilDate.compareTo(b.untilDate));
+
           return Container(
             padding: EdgeInsets.only(top: 8.0), // Add some padding to the top, otherwise the first cell will look really wired
             child: ListView.builder(
               itemCount: snapshot.data.length * 2,  // Use double amount because we will insert a Divider in the ItemBuilder
-              itemBuilder: (context, index) => _listViewItemBuilder(context, snapshot, index),
+              itemBuilder: (context, index) => _listViewItemBuilder(context, sortedList, index),
             ),
           );
         }
@@ -64,10 +68,10 @@ class _TodoListPageState extends State<TodoListPage> {
     );
   }
 
-  Widget _listViewItemBuilder(BuildContext context, AsyncSnapshot<List<TodoItem>> snapshot, int index) {
+  Widget _listViewItemBuilder(BuildContext context, List<TodoItem> items, int index) {
     // Check if we have an even number, because we want to insert a Divider after each cell.
     if (index.isOdd) return Divider();
-    var _item = snapshot.data[index ~/ 2];
+    var _item = items[index ~/ 2];
 
     return GestureDetector(
       onTap: () {
