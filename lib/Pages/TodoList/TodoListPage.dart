@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_todo_app/Models/TodoItem.dart';
 import 'package:flutter_todo_app/Network/NetworkService.dart';
-import 'package:flutter_todo_app/Pages/TodoAdd/TodoAddPage.dart';
-import 'package:flutter_todo_app/Pages/TodoDetails/TodoDetailsPage.dart';
-import 'package:flutter_todo_app/Pages/TodoList/TodoListCell.dart';
+import 'package:flutter_todo_app/Pages/TodoList/TodoAddPage.dart';
+import 'package:flutter_todo_app/Pages/TodoList/TodoDetailsPage.dart';
+import 'package:flutter_todo_app/Pages/ReuseableComponents/TodoListCell.dart';
 
 class TodoListPage extends StatefulWidget {
   @override
@@ -76,7 +76,10 @@ class _TodoListPageState extends State<TodoListPage> {
             MaterialPageRoute(
                 builder: (context) => TodoDetailsPage(todoItem: _item)
             )
-        );
+        ).then((value) {
+          // Reload view after view was popped
+          setState(() => _loadItems());
+        });
       },
       child: TodoListCell(
         title: _item.title,

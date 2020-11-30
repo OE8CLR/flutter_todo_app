@@ -2,11 +2,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_todo_app/Models/Coordinates.dart';
 import 'package:flutter_todo_app/Network/NetworkService.dart';
-import 'package:flutter_todo_app/Pages/TodoAdd/ImagePickerCell.dart';
-import 'package:flutter_todo_app/Pages/TodoAdd/TextFieldCell.dart';
+import 'package:flutter_todo_app/Pages/ReuseableComponents/ImagePickerCell.dart';
+import 'package:flutter_todo_app/Pages/ReuseableComponents/TextFieldCell.dart';
 import 'package:geolocator/geolocator.dart';
 
-import 'TimePickerCell.dart';
+import '../ReuseableComponents/TimePickerCell.dart';
 
 class TodoAddPage extends StatefulWidget {
   @override

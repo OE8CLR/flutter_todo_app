@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class TimePickerCell extends StatefulWidget {
+  final DateTime dateTime;
   final EdgeInsets padding;
+  final bool readOnly;
   final void Function(DateTime dateTime) onDateTimeChanged;
 
-  TimePickerCell({Key key, @required this.onDateTimeChanged, this.padding}) : super(key: key);
+  TimePickerCell({Key key, this.dateTime, this.padding, this.readOnly = false, @required this.onDateTimeChanged}) : super(key: key);
 
   @override
   _TimePickerCellState createState() => _TimePickerCellState();
@@ -17,15 +19,21 @@ class _TimePickerCellState extends State<TimePickerCell> {
   DateTime _dateTime;
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    _dateTime = widget.dateTime;
+    super.initState();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     List<Widget> elements = [
       GestureDetector(
         onTap: () {
-          // Toggle datePicker visibility
-          setState(() {
-            _datePickerIsVisible = !_datePickerIsVisible;
-          });
+          if (!widget.readOnly) {
+            setState(() {
+              _datePickerIsVisible = !_datePickerIsVisible;
+            });
+          }
         },
         child: Row(
           children: [

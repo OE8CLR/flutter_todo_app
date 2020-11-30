@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ImagePickerCell extends StatefulWidget {
+  final File image;
   final EdgeInsets padding;
+  final bool readOnly;
   final void Function(File image) imageSelected;
 
-  const ImagePickerCell({Key key, this.padding, @required this.imageSelected}) : super(key: key);
+  const ImagePickerCell({Key key, this.image, this.padding, this.readOnly = false, @required this.imageSelected}) : super(key: key);
 
   @override
   _ImagePickerCellState createState() => _ImagePickerCellState();
@@ -16,6 +18,12 @@ class ImagePickerCell extends StatefulWidget {
 class _ImagePickerCellState extends State<ImagePickerCell> {
   final imagePicker = ImagePicker();
   File _image;
+
+  @override
+  void initState() {
+    _image = widget.image;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +40,11 @@ class _ImagePickerCellState extends State<ImagePickerCell> {
     return Container(
       padding: widget.padding ?? EdgeInsets.zero,
       child: GestureDetector(
-        onTap: () => _showImagePickerActionSheet(context),
+        onTap: () {
+          if (!widget.readOnly) {
+            _showImagePickerActionSheet(context);
+          }
+        },
         child: Row (
           children: [
             _child

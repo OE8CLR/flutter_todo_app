@@ -44,8 +44,16 @@ class NetworkService {
     return retVal;
   }
 
-  // Future<TodoItem> updateTodoListItem({String id, bool completed}) async {
-  //
-  // }
+  Future<TodoItem> updateTodoListItem({String id, bool completed}) async {
+    var retVal = todoItems.firstWhere((element) => element.id == id);
+    if (retVal == null) {
+      throw Exception("TodoItem not found");
+    }
+
+    // Update state
+    retVal.completed = completed;
+
+    return retVal;
+  }
 
 }
