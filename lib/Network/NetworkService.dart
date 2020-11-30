@@ -54,8 +54,6 @@ class NetworkService {
     // Update state
     retVal.completed = completed;
 
-    print(retVal);
-
     return retVal;
   }
 
