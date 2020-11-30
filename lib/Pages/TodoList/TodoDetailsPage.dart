@@ -68,6 +68,8 @@ class _TodoDetailsPageState extends State<TodoDetailsPage> {
       ]);
     }
 
+    // TODO: Add map and display stored location information for that todo
+
     var completed = widget.todoItem?.completed ?? true;
     if (!completed)
     content.add(CupertinoButton(
