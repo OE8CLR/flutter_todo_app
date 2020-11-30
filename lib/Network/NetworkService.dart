@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter_todo_app/Models/TodoItem.dart';
 import 'package:uuid/uuid.dart';
+import 'package:uuid/uuid_util.dart';
 
 class NetworkService {
 
@@ -15,7 +16,7 @@ class NetworkService {
     // Init todoItems
     todoItems.addAll([
       TodoItem(
-          id: Uuid().toString(),
+          id: Uuid(),
           title: "I really need to check where i can find this beautiful owl.",
           untilDate: DateTime.now().add(Duration(days: 1)),
           image: null,
@@ -30,7 +31,7 @@ class NetworkService {
 
   Future<TodoItem> addTodoListItem({String title, File image, DateTime untilDate, double longitude, double latitude}) async {
     var retVal = TodoItem(
-      id: Uuid().toString(),
+      id: Uuid(),
       title: title,
       image: image,
       untilDate: untilDate,
@@ -44,7 +45,7 @@ class NetworkService {
     return retVal;
   }
 
-  Future<TodoItem> updateTodoListItem({String id, bool completed}) async {
+  Future<TodoItem> updateTodoListItem({Uuid id, bool completed}) async {
     var retVal = todoItems.firstWhere((element) => element.id == id);
     if (retVal == null) {
       throw Exception("TodoItem not found");
@@ -52,6 +53,8 @@ class NetworkService {
 
     // Update state
     retVal.completed = completed;
+
+    print(retVal);
 
     return retVal;
   }

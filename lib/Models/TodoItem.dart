@@ -1,8 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 class TodoItem {
-  final String id;
+  final Uuid id;
   final String title;
   final DateTime untilDate;
   final File image;
