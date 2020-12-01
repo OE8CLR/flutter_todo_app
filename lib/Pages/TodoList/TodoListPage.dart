@@ -80,6 +80,7 @@ class _TodoListPageState extends State<TodoListPage> {
     var item = items[index ~/ 2];
 
     return GestureDetector(
+      behavior: HitTestBehavior.translucent,
       onTap: () {
         Navigator.push(
             context,

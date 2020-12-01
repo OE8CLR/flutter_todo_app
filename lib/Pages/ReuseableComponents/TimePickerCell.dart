@@ -29,6 +29,7 @@ class _TimePickerCellState extends State<TimePickerCell> {
   Widget build(BuildContext context) {
     List<Widget> elements = [
       GestureDetector(
+        behavior: HitTestBehavior.translucent,
         onTap: () {
           if (!widget.readOnly) {
             setState(() {

@@ -41,6 +41,7 @@ class _ImagePickerCellState extends State<ImagePickerCell> {
     return Container(
       padding: widget.padding ?? EdgeInsets.zero,
       child: GestureDetector(
+        behavior: HitTestBehavior.translucent,
         onTap: () {
           if (!widget.readOnly) {
             _showImagePickerActionSheet(context);
