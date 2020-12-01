@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_todo_app/Models/TodoItem.dart';
 import 'package:flutter_todo_app/Network/NetworkService.dart';
+import 'package:flutter_todo_app/Pages/ReuseableComponents/GoogleMapCell.dart';
 import 'package:flutter_todo_app/Pages/ReuseableComponents/ImagePickerCell.dart';
 import 'package:flutter_todo_app/Pages/ReuseableComponents/TimePickerCell.dart';
 
@@ -55,6 +56,23 @@ class _TodoDetailsPageState extends State<TodoDetailsPage> {
       ]);
     }
 
+    var latitude = widget.todoItem?.latitude;
+    var longitude = widget.todoItem?.latitude;
+    if (latitude != null && longitude != null) {
+      content.addAll([
+        Divider(),
+        GoogleMapCell(
+            padding: EdgeInsets.only(right: 16.0, left: 16.0),
+            height: 200.0,
+            latitude: latitude,
+            longitude: longitude,
+            zoomLevel: 12.0,
+            readOnly: true,
+        ),
+        Divider(),
+      ]);
+    }
+
     var image = widget.todoItem?.image;
     if (image != null) {
       content.addAll([
@@ -67,8 +85,6 @@ class _TodoDetailsPageState extends State<TodoDetailsPage> {
         Divider(),
       ]);
     }
-
-    // TODO: Add map and display stored location information for that todo
 
     var completed = widget.todoItem?.completed ?? true;
     if (!completed)
