@@ -13,14 +13,16 @@ class TodoListCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color tintColor = completed ? Colors.grey : Colors.black;
+
     List<Widget> content = [];
 
-    var firstRow = _buildFirstRow();
+    var firstRow = _buildFirstRow(tintColor: tintColor);
     if (firstRow.children.isNotEmpty) {
       content.add(firstRow);
     }
 
-    var secondRow = _buildSecondRow();
+    var secondRow = _buildSecondRow(tintColor: tintColor);
     if (secondRow.children.isNotEmpty) {
       content.add(Container(
         padding: EdgeInsets.only(top: 8.0),
@@ -36,7 +38,7 @@ class TodoListCell extends StatelessWidget {
     );
   }
 
-  Row _buildFirstRow() {
+  Row _buildFirstRow({Color tintColor}) {
     List<Widget> content = [
       Flexible(
           fit: FlexFit.tight,
@@ -45,7 +47,7 @@ class TodoListCell extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    child: Text(title),
+                    child: Text(title, style: TextStyle(color: tintColor)),
                   ),
                 ],
               )
@@ -53,7 +55,7 @@ class TodoListCell extends StatelessWidget {
       ),
       Container(
           padding: EdgeInsets.only(left: 8.0),
-          child: Icon(completed ? Icons.check : Icons.chevron_right)
+          child: Icon(completed ? Icons.check : Icons.chevron_right, color: tintColor)
       )
     ];
 
@@ -78,25 +80,30 @@ class TodoListCell extends StatelessWidget {
     );
   }
 
-  Row _buildSecondRow() {
+  Row _buildSecondRow({Color tintColor}) {
     List<Widget> content = [];
 
     if (untilDate != null) {
-      Color dateTimeColor = Colors.grey;
+      Color dateTimeTintColor = Colors.black;
 
       // Get the color depending on the difference to the current time
-      var difference = untilDate.difference(DateTime.now());
-      if (difference.inMinutes < 0) {
-        dateTimeColor = Colors.red;
-      } else if (difference.inMinutes < 1440) {
-        dateTimeColor = Colors.orange;
+      if (!completed) {
+        var difference = untilDate.difference(DateTime.now());
+        if (difference.inMinutes < 0) {
+          dateTimeTintColor = Colors.red;
+        } else if (difference.inMinutes < 1440) {
+          dateTimeTintColor = Colors.orange;
+        }
+      } else {
+        dateTimeTintColor = tintColor;
       }
 
+      // TODO: Refine dateTime element and create separate widget out of it
       content.add(
           Container(
               decoration: BoxDecoration(
                 border: Border.all(
-                  color: dateTimeColor,
+                  color: dateTimeTintColor,
                   width: 0.5,
                 ),
                 borderRadius: BorderRadius.circular(4.0),
@@ -110,12 +117,12 @@ class TodoListCell extends StatelessWidget {
                         child: Icon(
                           Icons.calendar_today,
                           size: 12.0,
-                          color: dateTimeColor,
+                          color: dateTimeTintColor,
                         ),
                       ),
                       Text(
                         DateFormat("dd.MM. kk:mm").format(untilDate),
-                        style: TextStyle(fontSize: 10.0, color: dateTimeColor),
+                        style: TextStyle(fontSize: 10.0, color: dateTimeTintColor),
                       )
                     ],
                   )
@@ -128,7 +135,7 @@ class TodoListCell extends StatelessWidget {
       content.add(
         Container(
           padding: content.isNotEmpty ? EdgeInsets.only(left: 4.0) : EdgeInsets.zero,
-          child: Icon(Icons.attach_file, size: 12.0, color: Colors.grey),
+          child: Icon(Icons.attach_file, size: 12.0, color: tintColor),
         ),
       );
     }
@@ -137,7 +144,7 @@ class TodoListCell extends StatelessWidget {
       content.add(
         Container(
           padding: content.isNotEmpty ? EdgeInsets.only(left: 4.0) : EdgeInsets.zero,
-          child: Icon(Icons.location_on_outlined, size: 12.0, color: Colors.grey),
+          child: Icon(Icons.location_on_outlined, size: 12.0, color: tintColor),
         ),
       );
     }
