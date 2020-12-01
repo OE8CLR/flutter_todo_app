@@ -6,9 +6,10 @@ class TodoListCell extends StatelessWidget {
   final String title;
   final DateTime untilDate;
   final File image;
+  final bool locationAvailable;
   final bool completed;
 
-  const TodoListCell({Key key, @required this.title, this.untilDate, this.image, @required this.completed}) : super(key: key);
+  const TodoListCell({Key key, @required this.title, this.untilDate, this.image, this.locationAvailable = false, @required this.completed}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class TodoListCell extends StatelessWidget {
     var secondRow = _buildSecondRow();
     if (secondRow.children.isNotEmpty) {
       content.add(Container(
-        padding: EdgeInsets.only(top: 4.0),
+        padding: EdgeInsets.only(top: 8.0),
         child: secondRow,
       ));
     }
@@ -113,14 +114,31 @@ class TodoListCell extends StatelessWidget {
                         ),
                       ),
                       Text(
-                          DateFormat("dd.MM. kk:mm").format(untilDate),
-                          style: TextStyle(
-                              fontSize: 10.0, color: dateTimeColor)
+                        DateFormat("dd.MM. kk:mm").format(untilDate),
+                        style: TextStyle(fontSize: 10.0, color: dateTimeColor),
                       )
                     ],
                   )
               )
           ),
+      );
+    }
+
+    if (image != null) {
+      content.add(
+        Container(
+          padding: content.isNotEmpty ? EdgeInsets.only(left: 4.0) : EdgeInsets.zero,
+          child: Icon(Icons.attach_file, size: 12.0, color: Colors.grey),
+        ),
+      );
+    }
+
+    if (locationAvailable) {
+      content.add(
+        Container(
+          padding: content.isNotEmpty ? EdgeInsets.only(left: 4.0) : EdgeInsets.zero,
+          child: Icon(Icons.location_on_outlined, size: 12.0, color: Colors.grey),
+        ),
       );
     }
 

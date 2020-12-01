@@ -77,14 +77,14 @@ class _TodoListPageState extends State<TodoListPage> {
   Widget _listViewItemBuilder(BuildContext context, List<TodoItem> items, int index) {
     // Check if we have an even number, because we want to insert a Divider after each cell.
     if (index.isOdd) return Divider();
-    var _item = items[index ~/ 2];
+    var item = items[index ~/ 2];
 
     return GestureDetector(
       onTap: () {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => TodoDetailsPage(todoItem: _item)
+                builder: (context) => TodoDetailsPage(todoItem: item)
             )
         ).then((value) {
           // Reload view after view was popped
@@ -92,10 +92,11 @@ class _TodoListPageState extends State<TodoListPage> {
         });
       },
       child: TodoListCell(
-        title: _item.title,
-        image: _item.image,
-        untilDate: _item.untilDate,
-        completed: _item.completed,
+        title: item.title,
+        image: item.image,
+        untilDate: item.untilDate,
+        locationAvailable: (item.longitude != null && item.latitude != null),
+        completed: item.completed,
       ),
     );
   }
