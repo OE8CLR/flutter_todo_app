@@ -53,6 +53,7 @@ class _TodoListPageState extends State<TodoListPage> {
           }
 
           // Sort the received data, so that the oldest is first
+          // FIXME: There is an issue with todos without untilDate. They sometimes appear at the top and sometimes at the bottom.
           List<TodoItem> sortedList = snapshot.data;
           sortedList.sort((a, b) {
             if (a.untilDate == null || b.untilDate == null) {
