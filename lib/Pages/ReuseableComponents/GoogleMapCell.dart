@@ -17,7 +17,6 @@ class GoogleMapCell extends StatefulWidget {
 }
 
 class _GoogleMapCellState extends State<GoogleMapCell> {
-  Completer<GoogleMapController> _controller = Completer();
 
   @override
   Widget build(BuildContext context) {
@@ -27,20 +26,25 @@ class _GoogleMapCellState extends State<GoogleMapCell> {
     return Container(
         padding: widget.padding ?? EdgeInsets.zero,
         height: widget.height,
-        child: GoogleMap(
-            mapType: MapType.normal,
-            myLocationButtonEnabled: false,
-            initialCameraPosition: CameraPosition(
-              target: coordinates,
-              zoom: widget.zoomLevel ?? 1.0,
+        child: Container(
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Colors.grey,
+              width: 1.0,
             ),
-            markers: [marker].toSet(),
-            onMapCreated: (GoogleMapController controller) {
-              _controller.complete(controller);
-            },
-            rotateGesturesEnabled: !widget.readOnly,
-            zoomGesturesEnabled: !widget.readOnly,
-            scrollGesturesEnabled: !widget.readOnly,
+          ),
+          child: GoogleMap(
+              mapType: MapType.normal,
+              myLocationButtonEnabled: false,
+              initialCameraPosition: CameraPosition(
+                target: coordinates,
+                zoom: widget.zoomLevel ?? 1.0,
+              ),
+              markers: [marker].toSet(),
+              rotateGesturesEnabled: !widget.readOnly,
+              zoomGesturesEnabled: !widget.readOnly,
+              scrollGesturesEnabled: !widget.readOnly,
+          ),
         ),
     );
   }
