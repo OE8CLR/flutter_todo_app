@@ -54,7 +54,12 @@ class _TodoListPageState extends State<TodoListPage> {
 
           // Sort the received data, so that the oldest is first
           List<TodoItem> sortedList = snapshot.data;
-          sortedList.sort((a,b) => a.untilDate.compareTo(b.untilDate));
+          sortedList.sort((a, b) {
+            if (a.untilDate == null || b.untilDate == null) {
+              return 1; // Return a positive value to row that element at the end of the list
+            }
+            return a.untilDate?.compareTo(b.untilDate);
+          });
 
           return Container(
             padding: EdgeInsets.only(top: 8.0), // Add some padding to the top, otherwise the first cell will look really wired
