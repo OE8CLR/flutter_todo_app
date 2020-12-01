@@ -11,7 +11,8 @@ class TodoItem {
   final double longitude;
   final double latitude;
   bool completed;
+  DateTime completedDate;
 
-  TodoItem({@required this.id, @required this.createdDate, this.title, this.untilDate, this.image, this.completed = false, this.longitude, this.latitude});
+  TodoItem({@required this.id, @required this.createdDate, this.title, this.untilDate, this.image, this.completed = false, this.completedDate, this.longitude, this.latitude});
 
 }

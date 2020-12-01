@@ -52,20 +52,14 @@ class _TodoListPageState extends State<TodoListPage> {
             return CircularProgressIndicator();
           }
 
-          // Sort the received data, so that the oldest is first
-          // FIXME: There is an issue with todos without untilDate. They sometimes appear at the top and sometimes at the bottom.
+          // Sort the received data, so that the nearest untilWhen date is first
           List<TodoItem> sortedList = snapshot.data;
-          sortedList.sort((a, b) {
-            if (a.untilDate == null || b.untilDate == null) {
-              return 1; // Return a positive value to row that element at the end of the list
-            }
-            return a.untilDate?.compareTo(b.untilDate);
-          });
+          sortedList.sort(_sortTodoItem);
 
           return Container(
             padding: EdgeInsets.only(top: 8.0), // Add some padding to the top, otherwise the first cell will look really wired
             child: ListView.builder(
-              itemCount: snapshot.data.length * 2,  // Use double amount because we will insert a Divider in the ItemBuilder
+              itemCount: sortedList.length * 2,  // Use double amount because we will insert a Divider in the ItemBuilder
               itemBuilder: (context, index) => _listViewItemBuilder(context, sortedList, index),
             ),
           );
@@ -104,6 +98,35 @@ class _TodoListPageState extends State<TodoListPage> {
 
   void _loadItems() {
     _items = NetworkService().getTodoListItems();
+  }
+
+  /* Sorting Pattern:
+  *  - ITEM (nearest untilDate, not completed)
+  *  - ITEM (farthest untilDate, not completed)
+  *  - ITEM (no untilDate, oldest createdDate, not completed)
+  *  - ITEM (no untilDate, newest createdDate, not completed)
+  *  - ITEM (completed, newest completedDate)
+  *  - ITEM (completed, oldest completedDate)
+  */
+  int _sortTodoItem(TodoItem a, TodoItem b) {
+    if (a.completed && b.completed) {
+      // Reversed sorting (DESC) because we want that the newest completed todoItem is on top
+      return b.completedDate.compareTo(a.completedDate);
+    } else if (a.completed) {
+      return 1;
+    } else if (b.completed) {
+      return -1;
+    }
+
+    if (a.untilDate == null && b.untilDate == null) {
+      // If both untilDates are null then check the created date for sorting (newest first)
+      return a.createdDate.compareTo(b.createdDate);
+    } else if (a.untilDate == null) {
+      return 1;
+    } else if (b.untilDate == null) {
+      return -1;
+    }
+    return a.untilDate?.compareTo(b.untilDate);
   }
 
 }

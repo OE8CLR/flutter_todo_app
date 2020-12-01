@@ -55,6 +55,7 @@ class NetworkService {
 
     // Update state
     retVal.completed = completed;
+    retVal.completedDate = completed ? DateTime.now() : null;
 
     return retVal;
   }
