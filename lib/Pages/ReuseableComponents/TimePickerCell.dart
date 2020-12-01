@@ -8,8 +8,7 @@ class TimePickerCell extends StatefulWidget {
   final bool readOnly;
   final void Function(DateTime dateTime) onDateTimeChanged;
 
-  // FIXME: onDateTimeChanged should not be required, but then I need to check for null later on
-  TimePickerCell({Key key, this.dateTime, this.padding, this.readOnly = false, @required this.onDateTimeChanged}) : super(key: key);
+  TimePickerCell({Key key, this.dateTime, this.padding, this.readOnly = false, this.onDateTimeChanged}) : super(key: key);
 
   @override
   _TimePickerCellState createState() => _TimePickerCellState();
