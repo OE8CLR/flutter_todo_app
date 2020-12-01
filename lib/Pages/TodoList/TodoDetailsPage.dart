@@ -18,6 +18,30 @@ class TodoDetailsPage extends StatefulWidget {
 class _TodoDetailsPageState extends State<TodoDetailsPage> {
   @override
   Widget build(BuildContext context) {
+    List<Widget> actions = [];
+    if (!widget.todoItem.completed) {
+      actions.add(
+        FlatButton(
+          onPressed: () => _completeTodo(context),
+          textColor: Colors.white,
+          child: Text("Complete"), // TODO: Localisation missing
+          shape: CircleBorder(side: BorderSide(color: Colors.transparent)),
+        ),
+      );
+    }
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Details"), // TODO: Localisation missing
+        actions: actions,
+      ),
+      body: ListView(
+        children: _buildListView(),
+      ),
+    );
+  }
+
+  List<Widget> _buildListView() {
     var content = List<Widget>();
 
     var title = widget.todoItem?.title;
@@ -62,12 +86,12 @@ class _TodoDetailsPageState extends State<TodoDetailsPage> {
       content.addAll([
         Divider(),
         GoogleMapCell(
-            padding: EdgeInsets.only(right: 16.0, left: 16.0),
-            height: 200.0,
-            latitude: latitude,
-            longitude: longitude,
-            zoomLevel: 15.0,
-            readOnly: true,
+          padding: EdgeInsets.only(right: 16.0, left: 16.0),
+          height: 200.0,
+          latitude: latitude,
+          longitude: longitude,
+          zoomLevel: 15.0,
+          readOnly: true,
         ),
         Divider(),
       ]);
@@ -86,21 +110,7 @@ class _TodoDetailsPageState extends State<TodoDetailsPage> {
       ]);
     }
 
-    var completed = widget.todoItem?.completed ?? true;
-    if (!completed)
-    content.add(CupertinoButton(
-      child: Text("Complete"), // TODO: Localisation missing
-      onPressed: () => _completeTodo(context),
-    ));
-
-    return Scaffold(
-      appBar: AppBar(
-          title: Text("Details"),
-      ),
-      body: ListView(
-        children: content,
-      ),
-    );
+    return content;
   }
 
   void _completeTodo(BuildContext context) {
