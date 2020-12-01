@@ -53,9 +53,14 @@ class TodoListCell extends StatelessWidget {
     Widget secondRowContent = Container();
 
     if (untilDate != null) {
-      // FIXME: Date calculation is wong
-      var dateDifference =  DateTime.now().difference(untilDate).inDays;
-      var dateTimeColor = dateDifference < 0 ? Colors.grey : Colors.red;
+      Color dateTimeColor;
+      if (untilDate.difference(DateTime.now()).inMinutes < 0) {
+        dateTimeColor = Colors.red;
+      } else if (untilDate.difference(DateTime.now()).inMinutes < 1440) {
+        dateTimeColor = Colors.orange;
+      } else {
+        dateTimeColor = Colors.grey;
+      }
 
       secondRowContent = Container(
         padding: EdgeInsets.only(top: 6.0),
