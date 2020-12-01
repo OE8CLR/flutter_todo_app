@@ -44,6 +44,20 @@ class _TodoDetailsPageState extends State<TodoDetailsPage> {
   List<Widget> _buildListView() {
     var content = List<Widget>();
 
+    var createdDate = widget.todoItem?.createdDate;
+    if (createdDate != null) {
+      content.addAll([
+        Divider(),
+        TimePickerCell(
+          title: "Created at ...", // TODO: Localisation missing
+          dateTime: createdDate,
+          padding: EdgeInsets.only(right: 16.0, left: 16.0),
+          readOnly: true,
+        ),
+        Divider(),
+      ]);
+    }
+
     var title = widget.todoItem?.title;
     if (title != null) {
       content.addAll([
@@ -72,6 +86,7 @@ class _TodoDetailsPageState extends State<TodoDetailsPage> {
       content.addAll([
         Divider(),
         TimePickerCell(
+          title: "Until when ...", // TODO: Localisation missing
           dateTime: untilDate,
           padding: EdgeInsets.only(right: 16.0, left: 16.0),
           readOnly: true,

@@ -55,6 +55,7 @@ class _TodoAddPageState extends State<TodoAddPage> {
             Divider(),
             Divider(),
             TimePickerCell(
+              title: "Until when ...", // TODO: Localisation missing
               padding: EdgeInsets.only(right: 16.0, left: 16.0),
               onDateTimeChanged: (dateTime) => _untilDate = dateTime,
             ),

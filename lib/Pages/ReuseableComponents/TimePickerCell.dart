@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class TimePickerCell extends StatefulWidget {
+  final String title;
   final DateTime dateTime;
   final EdgeInsets padding;
   final bool readOnly;
   final void Function(DateTime dateTime) onDateTimeChanged;
 
-  TimePickerCell({Key key, this.dateTime, this.padding, this.readOnly = false, this.onDateTimeChanged}) : super(key: key);
+  TimePickerCell({Key key, @required this.title, this.dateTime, this.padding, this.readOnly = false, this.onDateTimeChanged}) : super(key: key);
 
   @override
   _TimePickerCellState createState() => _TimePickerCellState();
@@ -38,7 +39,7 @@ class _TimePickerCellState extends State<TimePickerCell> {
         },
         child: Row(
           children: [
-            Text("Until when ..."), // TODO: Localisation missing
+            Text(widget.title ?? ""),
             Flexible(child: Container()),
             Text(_dateTime != null ? DateFormat("dd.MM.yyyy kk:mm").format(_dateTime) : "whenever") // TODO: Localisation missing
           ],

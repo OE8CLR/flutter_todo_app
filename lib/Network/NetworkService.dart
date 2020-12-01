@@ -15,8 +15,11 @@ class NetworkService {
     todoItems.addAll([
       TodoItem(
           id: Uuid(),
-          title: "I really need to check where i can find this beautiful owl.",
+          title: "I really need to checkout that cool working place.",
+          createdDate: DateTime.now(),
           untilDate: DateTime.now().add(Duration(days: 1)),
+          latitude: 47.34355887611109,
+          longitude: 13.200706934456012,
           image: null,
           completed: false
       ),
@@ -33,6 +36,7 @@ class NetworkService {
       title: title,
       image: image,
       untilDate: untilDate,
+      createdDate: DateTime.now(),
       longitude: longitude,
       latitude: latitude
     );
