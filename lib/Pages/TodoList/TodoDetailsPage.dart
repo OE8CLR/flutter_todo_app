@@ -57,7 +57,7 @@ class _TodoDetailsPageState extends State<TodoDetailsPage> {
     }
 
     var latitude = widget.todoItem?.latitude;
-    var longitude = widget.todoItem?.latitude;
+    var longitude = widget.todoItem?.longitude;
     if (latitude != null && longitude != null) {
       content.addAll([
         Divider(),
@@ -66,7 +66,7 @@ class _TodoDetailsPageState extends State<TodoDetailsPage> {
             height: 200.0,
             latitude: latitude,
             longitude: longitude,
-            zoomLevel: 12.0,
+            zoomLevel: 15.0,
             readOnly: true,
         ),
         Divider(),
