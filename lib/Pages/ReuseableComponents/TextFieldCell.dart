@@ -5,10 +5,11 @@ class TextFieldCell extends StatefulWidget {
   final String hintText;
   final EdgeInsets padding;
   final bool readOnly;
+  final FocusNode focusNode;
   final void Function(String text) onTextChanged;
 
   // FIXME: onTextChanged should not be required, but then I need to check for null later on
-  const TextFieldCell({Key key, this.text, @required this.hintText, this.padding, this.readOnly = false, @required this.onTextChanged}) : super(key: key);
+  const TextFieldCell({Key key, this.text, @required this.hintText, this.padding, this.readOnly = false, @required this.onTextChanged, this.focusNode}) : super(key: key);
 
   @override
   _TextFieldCellState createState() => _TextFieldCellState();
@@ -21,6 +22,7 @@ class _TextFieldCellState extends State<TextFieldCell> {
         padding: widget.padding ?? EdgeInsets.zero,
         child: TextField(
           controller: TextEditingController()..text = widget.text,
+          focusNode: widget.focusNode,
           decoration: InputDecoration(
             hintText: widget.hintText,
             enabledBorder: InputBorder.none,

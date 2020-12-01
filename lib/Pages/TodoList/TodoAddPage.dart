@@ -5,7 +5,6 @@ import 'package:flutter_todo_app/Network/NetworkService.dart';
 import 'package:flutter_todo_app/Pages/ReuseableComponents/ImagePickerCell.dart';
 import 'package:flutter_todo_app/Pages/ReuseableComponents/TextFieldCell.dart';
 import 'package:geolocator/geolocator.dart';
-
 import '../ReuseableComponents/TimePickerCell.dart';
 
 class TodoAddPage extends StatefulWidget {
@@ -18,9 +17,11 @@ class _TodoAddPageState extends State<TodoAddPage> {
   DateTime _untilDate;
   Coordinates _currentLocation;
   File _image;
+  FocusNode _focusNode;
 
   @override
   void initState() {
+    _focusNode = FocusNode();
     _getUsersLocation();
     super.initState();
   }
@@ -39,28 +40,33 @@ class _TodoAddPageState extends State<TodoAddPage> {
           ),
         ],
       ),
-      body: ListView(
-        children: [
-          Divider(),
-          TextFieldCell(
-            padding: EdgeInsets.only(right: 16.0, left: 16.0),
-            hintText: "I want to ...", // TODO: Localisation missing
-            onTextChanged: (text) => _todoText = text,
-          ),
-          Divider(),
-          Divider(),
-          TimePickerCell(
-            padding: EdgeInsets.only(right: 16.0, left: 16.0),
-            onDateTimeChanged: (dateTime) => _untilDate = dateTime,
-          ),
-          Divider(),
-          Divider(),
-          ImagePickerCell(
-            padding: EdgeInsets.only(right: 16.0, left: 16.0),
-            imageSelected: (image) => _image = image,
-          ),
-          Divider(),
-        ],
+      body: GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: () => _focusNode.unfocus(),
+        child: ListView(
+          children: [
+            Divider(),
+            TextFieldCell(
+              padding: EdgeInsets.only(right: 16.0, left: 16.0),
+              hintText: "I want to ...", // TODO: Localisation missing
+              focusNode: _focusNode,
+              onTextChanged: (text) => _todoText = text,
+            ),
+            Divider(),
+            Divider(),
+            TimePickerCell(
+              padding: EdgeInsets.only(right: 16.0, left: 16.0),
+              onDateTimeChanged: (dateTime) => _untilDate = dateTime,
+            ),
+            Divider(),
+            Divider(),
+            ImagePickerCell(
+              padding: EdgeInsets.only(right: 16.0, left: 16.0),
+              imageSelected: (image) => _image = image,
+            ),
+            Divider(),
+          ],
+        ),
       ),
     );
   }
