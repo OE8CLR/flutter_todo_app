@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_todo_app/Pages/ReuseableComponents/DateTimeStatusWidget.dart';
 import 'package:intl/intl.dart';
 
 class TodoListCell extends StatelessWidget {
@@ -39,41 +40,50 @@ class TodoListCell extends StatelessWidget {
   }
 
   Row _buildFirstRow({Color tintColor}) {
-    List<Widget> content = [
-      Flexible(
-          fit: FlexFit.tight,
-          child: Container(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    child: Text(title, style: TextStyle(color: tintColor)),
-                  ),
-                ],
-              )
-          )
-      ),
-      Container(
-          padding: EdgeInsets.only(left: 8.0),
-          child: Icon(completed ? Icons.check : Icons.chevron_right, color: tintColor)
-      )
-    ];
+    List<Widget> content = [];
 
     // Check if an image is available and insert it in front of the text of the firstRow
     if (image != null) {
-      content.insert(0, Container(
-        padding: EdgeInsets.only(right: 8.0),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(8.0),
-          child: Image.file(
-              image,
-              width: 50.0,
-              height: 50.0,
-              fit: BoxFit.fill
-          ),
-        ),
-      ));
+      content.add(
+          Container(
+            padding: EdgeInsets.only(right: 8.0),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8.0),
+              child: Image.file(
+                  image,
+                  width: 50.0,
+                  height: 50.0,
+                  fit: BoxFit.fill
+              ),
+            ),
+          )
+      );
     }
+
+    // Add text that can expand to multiple lines
+    content.add(
+        Flexible(
+            fit: FlexFit.tight,
+            child: Container(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      child: Text(title, style: TextStyle(color: tintColor)),
+                    ),
+                  ],
+                )
+            )
+        )
+    );
+
+    // Add chevron or completed checkmark
+    content.add(
+        Container(
+            padding: EdgeInsets.only(left: 8.0),
+            child: Icon(completed ? Icons.check : Icons.chevron_right, color: tintColor)
+        )
+    );
 
     return Row(
       children: content,
@@ -98,36 +108,11 @@ class TodoListCell extends StatelessWidget {
         dateTimeTintColor = tintColor;
       }
 
-      // TODO: Refine dateTime element and create separate widget out of it
       content.add(
-          Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: dateTimeTintColor,
-                  width: 0.5,
-                ),
-                borderRadius: BorderRadius.circular(4.0),
-              ),
-              child: Container(
-                  padding: EdgeInsets.all(2.0),
-                  child: Row(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.only(right: 2.0),
-                        child: Icon(
-                          Icons.calendar_today,
-                          size: 12.0,
-                          color: dateTimeTintColor,
-                        ),
-                      ),
-                      Text(
-                        DateFormat("dd.MM. kk:mm").format(untilDate),
-                        style: TextStyle(fontSize: 10.0, color: dateTimeTintColor),
-                      )
-                    ],
-                  )
-              )
-          ),
+          DateTimeStatusWidget(
+              dateTime: untilDate,
+              tintColor: dateTimeTintColor
+          )
       );
     }
 
